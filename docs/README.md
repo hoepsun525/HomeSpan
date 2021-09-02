@@ -1,34 +1,34 @@
 # 欢迎!
 
-欢迎来到HomeSpan - 此Arduino是用于
+欢迎来到HomeSpan - 基于Arduino IDE的一个开源库文件，用于ESP32系列芯片连接Apple HomeKit。
 
-HomeSpan provides a microcontroller-focused implementation of [Apple's HomeKit Accessory Protocol Specification Release R2 (HAP-R2)](https://developer.apple.com/homekit/specification/) designed specifically for the Espressif ESP32 microcontroller running within the Arduino IDE.  HomeSpan pairs directly to HomeKit via your home WiFi network without the need for any external bridges or components.  With HomeSpan you can use the full power of the ESP32's I/O functionality to create custom control software and/or hardware to automatically operate external devices from the Home App on your iPhone, iPad, or Mac, or with Siri.
+HomeSpan包含一个基于微控制器执行([HAP-R2](https://developer.apple.com/homekit/specification/))的库文件，专门为Arduino IDE开发环境下的ESP32芯片所设计。HomeSpan可以做到将ESP32开发芯片所附带的其他周围配件通过WiFI直接与Apple的HomeKit相连接，且无需其他网桥或者配件。使用Homespan你可以做到使用ESP32强大的I/O功能来完成外围控件的控制，或者使用iPhone、iPad、Mac、Siri等的Home APP来执行自动化操作。
 
-### HomeSpan Highlights
+### HomeSpan 亮点
 
-* Provides a natural, intuitive, and **very** easy-to-use framework
-* Utilizes a unique *Service-Centric* approach to creating HomeKit devices
-* Takes full advantage of the widely-popular Arduino IDE
-* 100% HAP-R2 compliance
-* 38 integrated HomeKit Services
-* Operates in either Accessory or Bridge mode
-* Supports pairing with Setup Codes or QR Codes
+* 提供一个原生、直接、易用的框架。
+* 利用独特的*以服务为中心*的方法来创建HomeKit设备。
+* 充分利用广受欢迎的 Arduino IDE。
+* 100% HAP-R2适配。
+* 集成38个HomeKit服务。
+* 配件、网桥双模式。
+* 支持使用识别码和QR Code
 
-### For the HomeSpan Developer
+### 写给Homespan开发者
 
-* Extensive use of the Arduino Serial Monitor
-  * Real-time, easy-to-understand diagnostics
-  * Complete transparency to every underlying HomeKit action, data request, and data response
-  * Command-line interface with a variety of info, debugging, and configuration commands
-* Built-in database validation to ensure your configuration meets all HAP requirements
-* Dedicated classes that utilize the ESP32's 16-channel PWM peripheral for easy control of:
-  * LED Brightness
-  * Servo Motors
-* Integrated Push Button functionality supporting single, double, and long presses 
-* Integrated access to the ESP32's on-chip Remote Control peripheral for easy generation of IR and RF signals
-* 18 detailed tutorial-sketches with extensive comments, HomeSpan documentation and tips and tricks
+* 充分利用Arduino IDE的串口监视器
+  * 实时, 易理解的诊断消息。
+  * 对每个底层 HomeKit 操作、数据请求和数据响应完全透明。
+  * 带有各种信息、调试和配置命令的命令行界面。
+* 内置数据库验证以确保您的配置满足所有 HAP 要求。
+* 使用ESP32的16通道PWM，可轻松控制：
+  * LED亮度
+  * 伺服电机
+* 支持单次、双次和长时间按压的集成按钮功能。
+* 集成了ESP32片上遥控外围设备，轻松生成红外和射频信号。
+* 18个详细的教程草图，包括大量注释、HomeSpan文档和提示与技巧。
 
-### For the HomeSpan End-User
+### 写给Homespan终端用户
 
 * Embedded WiFi Access Point and Web Interface to allow end-users (non-developers) to:
   * Set up Homespan with their own home WiFi Credentials
