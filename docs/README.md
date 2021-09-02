@@ -30,38 +30,36 @@ HomeSpan包含一个基于微控制器执行([HAP-R2](https://developer.apple.co
 
 ### 写给Homespan终端用户
 
-* Embedded WiFi Access Point and Web Interface to allow end-users (non-developers) to:
-  * Set up Homespan with their own home WiFi Credentials
-  * Create their own HomeKit Pairing Setup Code
-* Status LED and Control Button to allow end-users to:
-  * Force-unpair the device from HomeKit
-  * Perform a Factory Reset
-  * Launch the WiFi Access Point
-* A standalone, detailed End-User Guide
+* 嵌入式WiFi接入点和Web界面，允许最终用户（非开发人员）：
+  * 使用自己家庭WiFi热点来设置Homespan。
+  * 设置自己想要的配对码。
+* 状态显示灯和按钮允许他用户去：
+  * 强制取消HomeKit配对。
+  * 执行出厂设置。
+  * 启动Wi-Fi接入点？？？
+* 独立、详细的最终用户指南
 
-## Latest Update - HomeSpan 1.3.0 (6/20/2021)
+## 最新更新 - HomeSpan 1.3.0 (2021/06/20)
 
-This update brings a number of new features and enhancements:
-
-  * The PWM library has been—
-    * upgraded to allow for much easier control of up to 16 dimmable LEDs, ***and***
-    * extended with a dedicated class to simultaneously operate up to 8 Servo Motors!
-  * Characteristic values can be automatically saved in non-volatile storage for retention in the event of a power loss.  When power is restored your Accessories will automatically revert to their most recent state!
-  * The HomeSpan CLI can now be customized — extend the CLI with your own functions and commands!
-  * Enable the automatic launch of HomeSpan's WiFi Access Point upon start-up whenever WiFi Credentials are not found.
-  * For advanced users: create your own custom WiFi Access Point and set your WiFi Credentials programmatically.
+此更新带来了许多新功能和增强功能：
+  * PWM库的改动—
+    * u升级后可更轻松地控制多达 16 个可调光 LED, ***and***
+    * 增加一个专用类，最多可同时操作 8 个伺服电机！
+  * 特定的变量值可以存储在非易失性存储中，以达到断电保存。当电源恢复时，配件会自动恢复原状态！
+  * 只要找不到 WiFi 凭据，就可以在启动时自动启动 HomeSpan 的 WiFi 接入点。？？？
+  * 对于高级用户：创建您自己的自定义 WiFi 接入点并以编程方式设置您的 WiFi 账户与密码。
   
-See [Releases](https://github.com/HomeSpan/HomeSpan/releases) for details on all changes included in this update.
+有关此更新中包含的所有更改的详细信息，请参阅 [发布](https://github.com/HomeSpan/HomeSpan/releases)。
 
-# HomeSpan Resources
+# HomeSpan 资源
 
-HomeSpan includes the following documentation:
+HomeSpan 包含了以下文档：
 
-* [Getting Started with HomeSpan](https://github.com/HomeSpan/HomeSpan/blob/master/docs/GettingStarted.md) - setting up the software and the hardware needed to develop HomeSpan devices
-* [HomeSpan API Overview](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Overview.md) - an overview of the HomeSpan API, including a step-by-step guide to developing your first HomeSpan Sketch
-* [HomeSpan Tutorials](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Tutorials.md) - a guide to HomeSpan's tutorial-sketches
-* [HomeSpan Services and Characteristics](https://github.com/HomeSpan/HomeSpan/blob/master/docs/ServiceList.md) - a list of all HAP Services and Characterstics supported by HomeSpan
-* [HomeSpan Accessory Categories](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Categories.md) - a list of all HAP Accessory Categories defined by HomeSpan
+* [初识HomeSpan](https://github.com/HomeSpan/HomeSpan/blob/master/docs/GettingStarted.md) -设置开发 HomeSpan 设备所需的软件和硬件
+* [HomeSpan API 总览](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Overview.md) - HomeSpan API 概述，包括开发第一个 HomeSpan 项目的指南
+* [HomeSpan 教程](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Tutorials.md) - HomeSpan 的教程草图指南
+* [HomeSpan 功能与特色](https://github.com/HomeSpan/HomeSpan/blob/master/docs/ServiceList.md) - HomeSpan 支持的所有 HAP 服务和特性的列表
+* [HomeSpan 配件类别](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Categories.md) - a list of all HAP Accessory Categories defined by HomeSpan
 * [HomeSpan Command-Line Interface (CLI)](https://github.com/HomeSpan/HomeSpan/blob/master/docs/CLI.md) - configure a HomeSpan device's WiFi Credentials, modify its HomeKit Setup Code, monitor and update its status, and access detailed, real-time device diagnostics from the Arduino IDE Serial Monitor
 * [HomeSpan User Guide](https://github.com/HomeSpan/HomeSpan/blob/master/docs/UserGuide.md) - turnkey instructions on how to configure an already-programmed HomeSpan device's WiFi Credentials, modify its HomeKit Setup Code, and pair the device to HomeKit.  No computer needed!
 * [HomeSpan API Reference](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Reference.md) - a complete guide to the HomeSpan Library API
@@ -71,7 +69,7 @@ HomeSpan includes the following documentation:
 * [HomeSpan Projects](https://github.com/topics/homespan) - real-world applications of the HomeSpan Library
 * [HomeSpan FAQ](https://github.com/HomeSpan/HomeSpan/blob/master/docs/FAQ.md) - answers to frequently-asked questions
 
-Note that all documentation is version-controlled and tied to each branch.  The *master* branch generally points to the latest release.  The *dev* branch, when available, will contain code under active development.
+请注意，所有文档都受版本控制并绑定到每个分支。 *master* 分支通常指向最新版本。 *dev* 分支（如果可用）将包含正在开发中的代码。
 
 # External Resources
 
