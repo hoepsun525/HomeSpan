@@ -29,7 +29,7 @@ void setup() {                // HomeSpan程序内容应写在setup()中
   // HomeSpan 库创建了一个名为“homeSpan”的全局对象，它封装了所有 HomeSpan 功能。
   // begin()方法用于初始化 HomeSpan 并启动所有 HomeSpan 进程。
   
-  // 前两个参数是 Category 和 Name, 用于定义初始化
+  // 前两个参数是 Category 和 Name, 用于初始化连接时Home App中显示的图表图标和名称。
 
   homeSpan.begin(Category::Lighting,"HomeSpan LightBulb");   // initializes a HomeSpan device named "HomeSpan Lightbulb" with Category set to Lighting
 
