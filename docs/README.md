@@ -1,4 +1,5 @@
 # 欢迎!
+本项目翻译自[HomeSpan](https://github.com/HomeSpan/HomeSpan)
 
 欢迎来到HomeSpan - 基于Arduino IDE的一个开源库文件，用于ESP32系列芯片连接Apple HomeKit。
 
@@ -59,26 +60,24 @@ HomeSpan 包含了以下文档：
 * [HomeSpan API 总览](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Overview.md) - HomeSpan API 概述，包括开发第一个 HomeSpan 项目的指南
 * [HomeSpan 教程](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Tutorials.md) - HomeSpan 的教程草图指南
 * [HomeSpan 功能与特色](https://github.com/HomeSpan/HomeSpan/blob/master/docs/ServiceList.md) - HomeSpan 支持的所有 HAP 服务和特性的列表
-* [HomeSpan 配件类别](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Categories.md) - a list of all HAP Accessory Categories defined by HomeSpan
-* [HomeSpan Command-Line Interface (CLI)](https://github.com/HomeSpan/HomeSpan/blob/master/docs/CLI.md) - configure a HomeSpan device's WiFi Credentials, modify its HomeKit Setup Code, monitor and update its status, and access detailed, real-time device diagnostics from the Arduino IDE Serial Monitor
-* [HomeSpan User Guide](https://github.com/HomeSpan/HomeSpan/blob/master/docs/UserGuide.md) - turnkey instructions on how to configure an already-programmed HomeSpan device's WiFi Credentials, modify its HomeKit Setup Code, and pair the device to HomeKit.  No computer needed!
-* [HomeSpan API Reference](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Reference.md) - a complete guide to the HomeSpan Library API
-* [HomeSpan QR Codes](https://github.com/HomeSpan/HomeSpan/blob/master/docs/QRCodes.md) - create and use QR Codes for pairing HomeSpan devices
-* [HomeSpan OTA](https://github.com/HomeSpan/HomeSpan/blob/master/docs/OTA.md) - update your sketches Over-the-Air directly from the Arduino IDE without a serial connection
-* [HomeSpan Extras](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Extras.md) - integrated access to the ESP32's on-chip LED, Servo Motor, and Remote Control peripherals!
-* [HomeSpan Projects](https://github.com/topics/homespan) - real-world applications of the HomeSpan Library
-* [HomeSpan FAQ](https://github.com/HomeSpan/HomeSpan/blob/master/docs/FAQ.md) - answers to frequently-asked questions
+* [HomeSpan 配件类别](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Categories.md) - 所有HomeSpan支持的配件
+* [HomeSpan 命令行交互 (CLI)](https://github.com/HomeSpan/HomeSpan/blob/master/docs/CLI.md) - 通过串口来配置 HomeSpan 设备的 WiFi连接，修改HomeKit配对码和进行运行监控
+* [HomeSpan 用户使用文件](https://github.com/HomeSpan/HomeSpan/blob/master/docs/UserGuide.md) - 有关如何配置 HomeSpan 设备的 WiFi连接、修改配对码以及HomeKit 配对教程
+* [HomeSpan API 指南](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Reference.md) - HomeSpan 库 API 的完整指南
+* [HomeSpan QR Codes](https://github.com/HomeSpan/HomeSpan/blob/master/docs/QRCodes.md) - 使用二维码来进行设备配对
+* [HomeSpan OTA](https://github.com/HomeSpan/HomeSpan/blob/master/docs/OTA.md) - 不通过串口，使用OTA进行代码升级
+* [HomeSpan 其他配件](https://github.com/HomeSpan/HomeSpan/blob/master/docs/Extras.md) - 集成访问 ESP32 的片上 LED、伺服电机和远程控制外设！
+* [HomeSpan 项目](https://github.com/topics/homespan) - HomeSpan 库的实际应用
+* [HomeSpan FAQ](https://github.com/HomeSpan/HomeSpan/blob/master/docs/FAQ.md) - 常见问题解答
 
 请注意，所有文档都受版本控制并绑定到每个分支。 *master* 分支通常指向最新版本。 *dev* 分支（如果可用）将包含正在开发中的代码。
 
-# External Resources
+# 外部资源
 
-In addition to HomeSpan resources, developers who are new to HomeKit programming should download Apple's [HomeKit Accessory Protocol Specification, Release R2 (HAP-R2)](https://developer.apple.com/homekit/specification/). The download is free, but Apple requires you to register your Apple ID for access to the document.
+除了 HomeSpan 资源外，刚接触 HomeKit 编程的开发者应该下载 Apple 的 [HomeKit Accessory Protocol Specification, Release R2 (HAP-R2)](https://developer.apple.com/homekit/specification/)。下载是免费的，但 Apple 要求您注册您的 Apple ID 才能访问该文档。
 
-You ***do not*** need to read the entire document.  The whole point of HomeSpan is that it implements all the required HAP operations under the hood so you can focus on just programming whatever logic is needed to control your real-world appliances (lights, fans, RF remote controls, etc.) with the device.  However, you will find Chapters 8 and 9 of the HAP guide to be an invaluable reference as it lists and describes all of the Services and Characteristics implemented in HomeSpan, many of which you will routinely utilize in your own HomeSpan sketches.
-
+你***不需要***阅读整个文档。 HomeSpan 的全部意义在于它在底层实现了所有 HAP 的必须操作，因此您可以专注于编程逻辑来控制真实的设备（灯、风扇、RF 遥控器等）。但是，请仔细学习第八章和第九章的内容，因为它列出并描述了 HomeSpan 中实现的所有服务和特性，其中许多将在您自己的 HomeSpan 实例中使用。
 ---
+### 反馈&问题
 
-### Feedback or Questions?
-
-Please consider adding to the [HomeSpan Discussion Board](https://github.com/HomeSpan/HomeSpan/discussions), or email me directly at [homespan@icloud.com](mailto:homespan@icloud.com).
+请加入 [HomeSpan Discussion Board](https://github.com/HomeSpan/HomeSpan/discussions), 或者直接发送邮件给作者 [homespan@icloud.com](mailto:homespan@icloud.com).
