@@ -1,73 +1,35 @@
-/*********************************************************************************
- *  MIT License
- *  
- *  Copyright (c) 2020 Gregg E. Berman
- *  
- *  https://github.com/HomeSpan/HomeSpan
- *  
- *  Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to deal
- *  in the Software without restriction, including without limitation the rights
- *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
- *  
- *  The above copyright notice and this permission notice shall be included in all
- *  copies or substantial portions of the Software.
- *  
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- *  
- ********************************************************************************/
- 
+
 ////////////////////////////////////////////////////////////
 //                                                        //
-//    HomeSpan: A HomeKit implementation for the ESP32    //
+//    HomeSpan: ESP32的HomeKit支持库                       //
 //    ------------------------------------------------    //
 //                                                        //
-// Example 1: A non-functioning on/off light control      //
-//            constructed from basic HomeSpan components  //
+// Example 1: 一个不起作用的LED控制程序，用于演示与家庭App连接   //
 //                                                        //
 ////////////////////////////////////////////////////////////
 
 
-  // WELCOME TO HOMESPAN!
+  // 欢迎使用Homespan！
   
-  // This first example introduces the HomeSpan library and demonstrates how to implement a simple on/off light control
-  // using a combination of HomeSpan Accessory, Service, and Characteristic objects.  Once this sketch has been uploaded
-  // to your HomeSpan device and the device is paired to your home, a new "lightbulb" tile will appear in the Home App of your iPhone,
-  // iPad, or Mac.
+  // 第一个示例介绍了 HomeSpan 库并演示了如何实现简单的开/关灯控制。
+  // 使用 HomeSpan Accessory、Service 和 Characteristic 对象的组合。编译上传此程序到
+  // 你的 ESP32 设备，然后打开iPhone、Mac、iPad上的家庭App，添加配件，你就会发现多了一个LED模块。
   
-  // Though the tile will be fully operational (i.e. you can change the status of the lightbulb from "on" or "off"), we won't yet connect
-  // an actual light or LED to the HomeSpan device, so nothing real will light up.  Instead, in this and the next few examples, we'll focus
-  // on learning about the different ways HomeKit controls can be configured.  Starting in Example 5, we'll connect an LED to the device
-  // and introduce the methods that actually turn the LED on and off from your Home App.
-
-  // NOTE: All HomeSpan examples are best understood when reviewed in conjunction with the documentation provided on the HomeSpan GitHub page.
-  // See https://github.com/HomeSpan/HomeSpan for details and references.  In particular, you may want to review the HomeSpan API Overview
-  // page before proceeding.
+  // 尽管例程能成功的执行 (即你可以通过App来改变灯的状态)，现实是我们还未连接一个正真的LED在开发版上，所以说什么事情都不会发生。
+  // 在其他的例程中我们将会学习怎样去连接和控制正真的器件。 从例程5开始，我们将学习如何去控制一个LED和去学习其中的方法。
   
-  // These examples also make frequent reference to  Apple's HomeKit Accessory Protocol Specification, known as HAP.  You can download this
-  // directly from Apple at https://developer.apple.com/support/homekit-accessory-protocol.
+  // 本例程是基于苹果的Homekit，欲知详情，请访问[HAP](https://developer.apple.com/support/homekit-accessory-protocol)
 
-  // LET'S GET STARTED...
+  // 让我们开始吧！
 
-#include "HomeSpan.h"         // HomeSpan sketches always begin by including the HomeSpan library
-
-void setup() {                // Your HomeSpan code should be placed within the standard Arduino setup() function
+#include "HomeSpan.h"         // HomeSpan永远是先引用HomeSpan.h头文件
+void setup() {                // HomeSpan程序内容应写在setup()中
  
-  Serial.begin(115200);       // Start a serial connection so you can receive HomeSpan diagnostics and control the device using HomeSpan's Command-Line Interface (CLI)
-
-  // The HomeSpan library creates a global object named "homeSpan" that encapsulates all HomeSpan functionality.
-  // The begin() method is used to initialize HomeSpan and start all HomeSpan processes.
+  Serial.begin(115200);       // 开启串口，用于接收HomeSpan的消息和进行交互
+  // HomeSpan 库创建了一个名为“homeSpan”的全局对象，它封装了所有 HomeSpan 功能。
+  // begin()方法用于初始化 HomeSpan 并启动所有 HomeSpan 进程。
   
-  // The first two parameters are Category and Name, which are used by HomeKit to configure the icon and name of the device shown in your Home App
-  // when initially pairing your device.
+  // 前两个参数是 Category 和 Name, 用于定义初始化
 
   homeSpan.begin(Category::Lighting,"HomeSpan LightBulb");   // initializes a HomeSpan device named "HomeSpan Lightbulb" with Category set to Lighting
 
