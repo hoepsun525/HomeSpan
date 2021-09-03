@@ -1,72 +1,55 @@
 ////////////////////////////////////////////////////////////
 //                                                        //
-//    HomeSpan: A HomeKit implementation for the ESP32    //
+//    HomeSpan: ESP32的HomeKit支持库                       //
 //    ------------------------------------------------    //
 //                                                        //
-// Example 2: Two non-functioning on/off light bulbs      //
-//            constructed from basic HomeSpan components  //
+// Example 1: 两个不起作用的LED控制程序，用于演示与家庭App连接   //
 //                                                        //
 ////////////////////////////////////////////////////////////
 
+//函数功能、注释见example-01
+#include "HomeSpan.h"
 
-#include "HomeSpan.h"         // Always start by including the HomeSpan library
-
-void setup() {
-
-  // Example 2 expands on Example 1 by implementing two LightBulbs, each as their own Accessory
- 
+void setup() 
+{
+  // Example 2 两个LED灯连接HomeKit，每个LDE灯为单独可控制的配件。
   Serial.begin(115200);
+  homeSpan.begin(Category::Lighting,"HomeSpan LightBulbs");
+  new SpanAccessory();
+  new Service::AccessoryInformation();
+  new Characteristic::Name("我的第一个LED灯");
+  new Characteristic::Manufacturer("HomeSpan");
+  new Characteristic::SerialNumber("123-ABC");
+  new Characteristic::Model("灯1");
+  new Characteristic::FirmwareRevision("0.9");
+  new Characteristic::Identify();
 
-  homeSpan.begin(Category::Lighting,"HomeSpan LightBulbs");  // initialize HomeSpan - note the name is now "HomeSpan LightBulbs"
+  new Service::HAPProtocolInformation();
+  new Characteristic::Version("1.1.0");
 
-  // Here we create the first LightBulb Accessory just as in Example 1
+  new Service::LightBulb();
+  new Characteristic::On();
 
-  new SpanAccessory();                            // Begin by creating a new Accessory using SpanAccessory(), which takes no arguments 
-  
-    new Service::AccessoryInformation();            // HAP requires every Accessory to implement an AccessoryInformation Service, which has 6 required Characteristics
-      new Characteristic::Name("My Table Lamp");      // Name of the Accessory, which shows up on the HomeKit "tiles", and should be unique across Accessories
-      new Characteristic::Manufacturer("HomeSpan");   // Manufacturer of the Accessory (arbitrary text string, and can be the same for every Accessory)
-      new Characteristic::SerialNumber("123-ABC");    // Serial Number of the Accessory (arbitrary text string, and can be the same for every Accessory)
-      new Characteristic::Model("120-Volt Lamp");     // Model of the Accessory (arbitrary text string, and can be the same for every Accessory)
-      new Characteristic::FirmwareRevision("0.9");    // Firmware of the Accessory (arbitrary text string, and can be the same for every Accessory) 
-      new Characteristic::Identify();                 // Create the required Identify  
-      
-    new Service::HAPProtocolInformation();          // Create the HAP Protcol Information Service  
-      new Characteristic::Version("1.1.0");           // Set the Version Characteristicto "1.1.0" as required by HAP
+  // 创建第二个配件
 
-    new Service::LightBulb();                       // Create the Light Bulb Service
-      new Characteristic::On();                       // This Service requires the "On" Characterstic to turn the light on and off
+  new SpanAccessory();
+  new Service::AccessoryInformation();
+  new Characteristic::Name("我的第二个LED灯");
+  new Characteristic::Manufacturer("HomeSpan");
+  new Characteristic::SerialNumber("123-ABC");
+  new Characteristic::Model("灯2");
+  new Characteristic::FirmwareRevision("0.9");
+  new Characteristic::Identify();
 
-  // Now we create a second Accessory, which is just a duplicate of Accessory 1 with the exception of changing the Name from "My Table Lamp" to "My Floor Lamp"
+  new Service::HAPProtocolInformation();
+  new Characteristic::Version("1.1.0");
 
-  new SpanAccessory();                            // Begin by creating a new Accessory using SpanAccessory(), which takes no arguments 
-  
-    new Service::AccessoryInformation();            // HAP requires every Accessory to implement an AccessoryInformation Service, which has 6 required Characteristics
-      new Characteristic::Name("My Floor Lamp");      // Name of the Accessory, which shows up on the HomeKit "tiles", and should be unique across Accessories
-      new Characteristic::Manufacturer("HomeSpan");   // Manufacturer of the Accessory (arbitrary text string, and can be the same for every Accessory)
-      new Characteristic::SerialNumber("123-ABC");    // Serial Number of the Accessory (arbitrary text string, and can be the same for every Accessory)
-      new Characteristic::Model("120-Volt Lamp");     // Model of the Accessory (arbitrary text string, and can be the same for every Accessory)
-      new Characteristic::FirmwareRevision("0.9");    // Firmware of the Accessory (arbitrary text string, and can be the same for every Accessory) 
-      new Characteristic::Identify();                 // Create the required Identify  
-      
-    new Service::HAPProtocolInformation();          // Create the HAP Protcol Information Service  
-      new Characteristic::Version("1.1.0");           // Set the Version Characteristicto "1.1.0" as required by HAP
-
-    new Service::LightBulb();                       // Create the Light Bulb Service
-      new Characteristic::On();                       // This Service requires the "On" Characterstic to turn the light on and off
-
-  // That's it - our device now has two Accessories!
-
-  // IMPORTANT: You should NOT have to re-pair your device with HomeKit when moving from Example 1 to Example 2.  HomeSpan will note
-  // that the Attribute Database has been updated, and will broadcast a new configuration number when the program restarts.  This should
-  // cause all iOS and MacOS HomeKit Controllers to automatically update and reflect the new configuration above.
-
-} // end of setup()
-
-//////////////////////////////////////
+  new Service::LightBulb();
+  new Characteristic::On();
+  // 提示！当你是从Examole-01转移到此例程的时候，请不要重新配对配件，HomeSpan会识别到属性数据库？？？已经更新，并且会在程序重启时会广播一个新的配置号。
+  //使所有 iOS 和 MacOS HomeKit 控制器自动更新并反映上面的新配置。
+} 
 
 void loop(){
-  
-  homeSpan.poll();         // run HomeSpan!
-  
-} // end of loop()
+  homeSpan.poll();
+}
