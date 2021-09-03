@@ -121,7 +121,7 @@ void Span::begin(Category catID, const char *displayName, const char *hostNameBa
 void Span::poll() {
 
   if(!strlen(category)){
-    Serial.print("\n** 严重错误: homeSpan.begin(）初始调用错误，无法继续运行homeSpan.poll()!\n** 创建好呢 **\n\n");
+    Serial.print("\n** 严重错误: homeSpan.begin(）初始调用错误，无法继续运行homeSpan.poll()!\n** 程序停止 **\n\n");
     while(1);    
   }
 
@@ -142,12 +142,12 @@ void Span::poll() {
     processSerialCommand("i");        // print homeSpan configuration info
    
     if(nFatalErrors>0){
-      Serial.print("\n*** PROGRAM HALTED DUE TO ");
+      Serial.print("\n*** 程序停止，因为 ");
       Serial.print(nFatalErrors);
-      Serial.print(" FATAL ERROR");
+      Serial.print(" 严重错误");
       if(nFatalErrors>1)
-        Serial.print("S");
-      Serial.print(" IN CONFIGURATION! ***\n\n");
+        Serial.print("（多个错误）");
+      Serial.print(" 在程序中! ***\n\n");
       while(1);
     }    
 
@@ -156,12 +156,12 @@ void Span::poll() {
     HAPClient::init();        // read NVS and load HAP settings  
 
     if(!strlen(network.wifiData.ssid)){
-      Serial.print("*** WIFI CREDENTIALS DATA NOT FOUND.  ");
+      Serial.print("*** 没有找到配置Wi-Fi.  ");
       if(autoStartAPEnabled){
-        Serial.print("AUTO-START OF ACCESS POINT ENABLED...\n\n");
+        Serial.print("重启自动扫描...\n\n");
         processSerialCommand("A");
       } else {
-        Serial.print("YOU MAY CONFIGURE BY TYPING 'W <RETURN>'.\n\n");
+        Serial.print("请输入 'W <RETURN>'来重新配置Wi-Fi.\n\n");
         statusLED.start(LED_WIFI_NEEDED);
       }
     } else {
@@ -171,7 +171,7 @@ void Span::poll() {
     controlButton.reset();        
 
     Serial.print(displayName);
-    Serial.print(" is READY!\n\n");
+    Serial.print(" 已经准备好!\n\n");
     isInitialized=true;
     
   } // isInitialized
@@ -286,7 +286,7 @@ int Span::getFreeSlot(){
 
 void Span::commandMode(){
   
-  Serial.print("*** ENTERING COMMAND MODE ***\n\n");
+  Serial.print("*** 正在进入命令模式 ***\n\n");
   int mode=1;
   boolean done=false;
   statusLED.start(500,0.3,mode,1000);
@@ -295,9 +295,9 @@ void Span::commandMode(){
 
   while(!done){
     if(millis()>alarmTime){
-      Serial.print("*** Command Mode: Timed Out (");
+      Serial.print("*** 命令模式: 超时 (");
       Serial.print(comModeLife/1000);
-      Serial.print(" seconds).\n\n");
+      Serial.print(" 秒).\n\n");
       mode=1;
       done=true;
       statusLED.start(LED_ALERT);
@@ -321,7 +321,7 @@ void Span::commandMode(){
   switch(mode){
 
     case 1:
-      Serial.print("*** NO ACTION\n\n");
+      Serial.print("*** 无响应\n\n");
       if(strlen(network.wifiData.ssid)==0)
         statusLED.start(LED_WIFI_NEEDED);
       else
@@ -349,7 +349,7 @@ void Span::commandMode(){
     
   } // switch
   
-  Serial.print("*** EXITING COMMAND MODE ***\n\n");
+  Serial.print("*** 退出命令模式 ***\n\n");
 }
 
 //////////////////////////////////////
@@ -360,7 +360,7 @@ void Span::checkConnect(){
     if(WiFi.status()==WL_CONNECTED)
       return;
       
-    Serial.print("\n\n*** WiFi Connection Lost!\n");      // losing and re-establishing connection has not been tested
+    Serial.print("\n\n***  Wi-Fi已断线!\n");      // losing and re-establishing connection has not been tested
     connected=false;
     waitTime=60000;
     alarmConnect=0;
@@ -377,16 +377,16 @@ void Span::checkConnect(){
       waitTime*=2;
       
     if(waitTime==32000){
-      Serial.print("\n*** Can't connect to ");
+      Serial.print("\n*** 无法连接到 ");
       Serial.print(network.wifiData.ssid);
-      Serial.print(".  You may type 'W <return>' to re-configure WiFi, or 'X <return>' to erase WiFi credentials.  Will try connecting again in 60 seconds.\n\n");
+      Serial.print(".  请输入 'W <return>' 来重新配置Wi-Fi, 或者 'X <return>' 来清除当前Wi-Fi配置.  60秒后尝试重新连接.\n\n");
       waitTime=60000;
     } else {    
-      Serial.print("Trying to connect to ");
+      Serial.print("正在尝试连接");
       Serial.print(network.wifiData.ssid);
-      Serial.print(".  Waiting ");
+      Serial.print(".  等待 ");
       Serial.print(waitTime/1000);
-      Serial.print(" second(s) for response...\n");
+      Serial.print(" 秒(s)来反应...\n");
       WiFi.begin(network.wifiData.ssid,network.wifiData.pwd);
     }
 
@@ -397,9 +397,9 @@ void Span::checkConnect(){
 
   connected=true;
 
-  Serial.print("Successfully connected to ");
+  Serial.print("成功连接到 ");
   Serial.print(network.wifiData.ssid);
-  Serial.print("! IP Address: ");
+  Serial.print("! IP地址: ");
   Serial.print(WiFi.localIP());
   Serial.print("\n");
 
@@ -427,22 +427,22 @@ void Span::checkConnect(){
   sscanf(hostName,"%[A-Za-z0-9-]",d);
   
   if(strlen(hostName)>255|| hostName[0]=='-' || hostName[strlen(hostName)-1]=='-' || strlen(hostName)!=strlen(d)){
-    Serial.printf("\n*** Error:  Can't start MDNS due to invalid hostname '%s'.\n",hostName);
-    Serial.print("*** Hostname must consist of 255 or less alphanumeric characters or a hyphen, except that the hyphen cannot be the first or last character.\n");
-    Serial.print("*** PROGRAM HALTED!\n\n");
+    Serial.printf("\n*** 错误:  无法启动MDNS（没有DNS下的通信达成），无效的主机名 '%s'.\n",hostName);
+    Serial.print("*** 主机名必须由 255 个或更少的字母数字字符或连字符组成，但连字符不能是第一个或最后一个字符.\n");
+    Serial.print("*** 程序停止!\n\n");
     while(1);
   }
     
-  Serial.print("\nStarting MDNS...\n\n");
-  Serial.print("HostName:      ");
+  Serial.print("\n开启MDNS中...\n\n");
+  Serial.print("主机名:      ");
   Serial.print(hostName);
   Serial.print(".local:");
   Serial.print(tcpPortNum);
-  Serial.print("\nDisplay Name:  ");
+  Serial.print("\n显示名称:  ");
   Serial.print(displayName);
-  Serial.print("\nModel Name:    ");
+  Serial.print("\n模块名称:    ");
   Serial.print(modelName);
-  Serial.print("\nSetup ID:      ");
+  Serial.print("\n启动ID:      ");
   Serial.print(qrID);
   Serial.print("\n\n");
 
@@ -498,46 +498,46 @@ void Span::checkConnect(){
             type = "sketch";
           else // U_SPIFFS
             type = "filesystem";
-          Serial.println("\n*** OTA Starting:" + type);
+          Serial.println("\n*** OTA 启动中:" + type);
           homeSpan.statusLED.start(LED_OTA_STARTED);
         })
         .onEnd([]() {
-          Serial.println("\n*** OTA Completed.  Rebooting...");
+          Serial.println("\n*** OTA完成.  正在重启...");
           homeSpan.statusLED.off();
         })
         .onProgress([](unsigned int progress, unsigned int total) {
-          Serial.printf("*** Progress: %u%%\r", (progress / (total / 100)));
+          Serial.printf("*** 进度: %u%%\r", (progress / (total / 100)));
         })
         .onError([](ota_error_t error) {
-          Serial.printf("*** OTA Error[%u]: ", error);
-          if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed\n");
-          else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed\n");
-          else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed\n");
-          else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed\n");
-          else if (error == OTA_END_ERROR) Serial.println("End Failed\n");
+          Serial.printf("*** OTA 错误[%u]: ", error);
+          if (error == OTA_AUTH_ERROR) Serial.println("认证时失败\n");
+          else if (error == OTA_BEGIN_ERROR) Serial.println("开始时失败\n");
+          else if (error == OTA_CONNECT_ERROR) Serial.println("连接时失败\n");
+          else if (error == OTA_RECEIVE_ERROR) Serial.println("R接收时失败\n");
+          else if (error == OTA_END_ERROR) Serial.println("结束时失败\n");
         });    
       
       ArduinoOTA.begin();
-      Serial.print("Starting OTA Server: ");
+      Serial.print("正在启动OTA: ");
       Serial.print(displayName);
-      Serial.print(" at ");
+      Serial.print(" IP地址： ");
       Serial.print(WiFi.localIP());
-      Serial.print("\nAuthorization Password: ");
-      Serial.print(otaAuth?"Enabled\n\n":"DISABLED!\n\n");
+      Serial.print("\n授权密码: ");
+      Serial.print(otaAuth?"启用\n\n":"关闭!\n\n");
     } else {
-      Serial.print("\n*** WARNING: Can't start OTA Server - Partition table used to compile this sketch is not configured for OTA.\n\n");
+      Serial.print("\n*** 警告！无法启动OTA服务器 - 用于编译此程序的分区表配置不适用于 OTA.\n\n");
     }
   }
 
-  Serial.print("Starting Web (HTTP) Server supporting up to ");
+  Serial.print("正在启动Web Server（HTTP）,最多支持 ");
   Serial.print(maxConnections);
-  Serial.print(" simultaneous connections...\n");
+  Serial.print(" 个设备？同时连接...\n");
   hapServer->begin();
 
   Serial.print("\n");
 
   if(!HAPClient::nAdminControllers()){
-    Serial.print("DEVICE NOT YET PAIRED -- PLEASE PAIR WITH HOMEKIT APP\n\n");
+    Serial.print("设备还未匹配 -- 请打开家庭App（Home）进行匹配\n\n");
     statusLED.start(LED_PAIRING_NEEDED);
   } else {
     statusLED.on();
@@ -569,12 +569,12 @@ void Span::processSerialCommand(const char *c){
 
     case 's': {    
       
-      Serial.print("\n*** HomeSpan Status ***\n\n");
+      Serial.print("\n*** HomeSpan状态 ***\n\n");
 
-      Serial.print("IP Address:        ");
+      Serial.print("IP 地址:        ");
       Serial.print(WiFi.localIP());
       Serial.print("\n\n");
-      Serial.print("Accessory ID:      ");
+      Serial.print("设备 ID:      ");
       HAPClient::charPrintRow(HAPClient::accessory.ID,17);
       Serial.print("                               LTPK: ");
       HAPClient::hexPrintRow(HAPClient::accessory.LTPK,32);
@@ -584,7 +584,7 @@ void Span::processSerialCommand(const char *c){
       Serial.print("\n");
 
       for(int i=0;i<maxConnections;i++){
-        Serial.print("Connection #");
+        Serial.print("连接 #");
         Serial.print(i);
         Serial.print(" ");
         if(hap[i]->client){
@@ -600,17 +600,17 @@ void Span::processSerialCommand(const char *c){
             HAPClient::charPrintRow(hap[i]->cPair->ID,36);
             Serial.print(hap[i]->cPair->admin?"   (admin)":" (regular)");
           } else {
-            Serial.print("  (unverified)");
+            Serial.print("  (未验证)");
           }
       
         } else {
-          Serial.print("(unconnected)");
+          Serial.print("(未连接)");
         }
 
         Serial.print("\n");
       }
 
-      Serial.print("\n*** End Status ***\n\n");
+      Serial.print("\n*** 结束 ***\n\n");
     } 
     break;
 
@@ -619,13 +619,13 @@ void Span::processSerialCommand(const char *c){
       TempBuffer <char> qBuf(sprintfAttributes(NULL)+1);
       sprintfAttributes(qBuf.buf);  
 
-      Serial.print("\n*** Attributes Database: size=");
+      Serial.print("\n*** 属性数据库: size=");
       Serial.print(qBuf.len()-1);
       Serial.print("  configuration=");
       Serial.print(hapConfig.configNumber);
       Serial.print(" ***\n\n");
       prettyPrint(qBuf.buf);
-      Serial.print("\n*** End Database ***\n\n");
+      Serial.print("\n*** 结束 ***\n\n");
     }
     break;
 
@@ -636,15 +636,15 @@ void Span::processSerialCommand(const char *c){
   
       if(strlen(s)==4 && strlen(tBuf)==4){
         sprintf(qrID,"%s",tBuf);
-        Serial.print("\nChanging default Setup ID for QR Code to: '");
+        Serial.print("\n将 QR 码的默认设置 ID 更改为: '");
         Serial.print(qrID);
-        Serial.print("'.  Will take effect after next restart.\n\n");
+        Serial.print("'.  重启之后生效t.\n\n");
         nvs_set_str(HAPClient::hapNVS,"SETUPID",qrID);                           // update data
         nvs_commit(HAPClient::hapNVS);          
       } else {
-        Serial.print("\n*** Invalid request to change Setup ID for QR Code to: '");
+        Serial.print("\n*** 更改QR码的ID无效: '");
         Serial.print(s);
-        Serial.print("'.  Setup ID must be exactly 4 alphanumeric characters (0-9, A-Z, and a-z).\n\n");  
+        Serial.print("'.  设置ID 必须是4个字符，可以是：（0-9, A-Z, and a-z).\n\n");  
       }        
     }
     break;
@@ -653,16 +653,16 @@ void Span::processSerialCommand(const char *c){
 
       char textPwd[34]="\0";
       
-      Serial.print("\n>>> New OTA Password, or <return> to cancel request: ");
+      Serial.print("\n>>>新的OTA密码, 或者输入 <return> 来取消: ");
       readSerial(textPwd,33);
       
       if(strlen(textPwd)==0){
-        Serial.print("(cancelled)\n\n");
+        Serial.print("(已取消)\n\n");
         return;
       }
 
       if(strlen(textPwd)==33){
-        Serial.print("\n*** Sorry, 32 character limit - request cancelled\n\n");
+        Serial.print("\n*** 错误, 最长32位字符 - 请求取消\n\n");
         return;
       }
       
@@ -677,9 +677,9 @@ void Span::processSerialCommand(const char *c){
       nvs_set_str(HAPClient::otaNVS,"OTADATA",otaPwd);                 // update data
       nvs_commit(HAPClient::otaNVS);          
       
-      Serial.print("... Accepted! Password change will take effect after next restart.\n");
+      Serial.print("... 完成! 重启之后将会执行更改.\n");
       if(!otaEnabled)
-        Serial.print("... Note: OTA has not been enabled in this sketch.\n");
+        Serial.print("... 提示: 此程序还未添加OTA支持.\n");
       Serial.print("\n");
     }
     break;
@@ -697,21 +697,21 @@ void Span::processSerialCommand(const char *c){
       sscanf(c+1," %9[0-9]",setupCode);
       
       if(strlen(setupCode)!=8){
-        Serial.print("\n*** Invalid request to change Setup Code.  Code must be exactly 8 digits.\n");
+        Serial.print("\n*** 更改配对码的请求无效，必须是8位数字.\n");
       } else
       
       if(!network.allowedCode(setupCode)){
-        Serial.print("\n*** Invalid request to change Setup Code.  Code too simple.\n");
+        Serial.print("\n*** 更改配对码的请求无效，过于简单.\n");
       } else {
         
-        sprintf(buf,"\n\nGenerating SRP verification data for new Setup Code: %.3s-%.2s-%.3s ... ",setupCode,setupCode+3,setupCode+5);
+        sprintf(buf,"\n\n为新的设置代码生成 SRP 验证数据: %.3s-%.2s-%.3s ... ",setupCode,setupCode+3,setupCode+5);
         Serial.print(buf);
         HAPClient::srp.createVerifyCode(setupCode,verifyData.verifyCode,verifyData.salt);                         // create verification code from default Setup Code and random salt
         nvs_set_blob(HAPClient::srpNVS,"VERIFYDATA",&verifyData,sizeof(verifyData));                              // update data
         nvs_commit(HAPClient::srpNVS);                                                                            // commit to NVS
-        Serial.print("New Code Saved!\n");
+        Serial.print("新代码已保存!\n");
 
-        Serial.print("Setup Payload for Optional QR Code: ");
+        Serial.print("可选的QR 码: ");
         Serial.print(qrCode.get(atoi(setupCode),qrID,atoi(category)));
         Serial.print("\n\n");        
       }            
@@ -723,18 +723,18 @@ void Span::processSerialCommand(const char *c){
       HAPClient::removeControllers();                                                                           // clear all Controller data  
       nvs_set_blob(HAPClient::hapNVS,"CONTROLLERS",HAPClient::controllers,sizeof(HAPClient::controllers));      // update data
       nvs_commit(HAPClient::hapNVS);                                                                            // commit to NVS
-      Serial.print("\n*** HomeSpan Pairing Data DELETED ***\n\n");
+      Serial.print("\n*** HomeSpan配对数据已删除 ***\n\n");
       
       for(int i=0;i<maxConnections;i++){     // loop over all connection slots
         if(hap[i]->client){                    // if slot is connected
-          LOG1("*** Terminating Client #");
+          LOG1("*** 正在终止客户端 #");
           LOG1(i);
           LOG1("\n");
           hap[i]->client.stop();
         }
       }
       
-      Serial.print("\nDEVICE NOT YET PAIRED -- PLEASE PAIR WITH HOMEKIT APP\n\n");
+      Serial.print("\n设备还未配对 -- 请使用家庭App（Home）来进行配对\n\n");
       mdns_service_txt_item_set("_hap","_tcp","sf","1");                                                        // set Status Flag = 1 (Table 6-8)
       
       if(strlen(network.wifiData.ssid)==0)
@@ -747,7 +747,7 @@ void Span::processSerialCommand(const char *c){
     case 'W': {
 
       if(strlen(network.wifiData.ssid)>0){
-        Serial.print("*** Stopping all current WiFi services...\n\n");
+        Serial.print("*** 停止所有当前的 WiFi 服务中...\n\n");
         hapServer->end();
         MDNS.end();
         WiFi.disconnect();
@@ -756,7 +756,7 @@ void Span::processSerialCommand(const char *c){
       network.serialConfigure();
       nvs_set_blob(wifiNVS,"WIFIDATA",&network.wifiData,sizeof(network.wifiData));    // update data
       nvs_commit(wifiNVS);                                                            // commit to NVS
-      Serial.print("\n*** WiFi Credentials SAVED!  Re-starting ***\n\n");
+      Serial.print("\n*** 配置已保存!  重启中 ***\n\n");
       statusLED.off();
       delay(1000);
       ESP.restart();  
@@ -766,7 +766,7 @@ void Span::processSerialCommand(const char *c){
     case 'A': {
 
       if(strlen(network.wifiData.ssid)>0){
-        Serial.print("*** Stopping all current WiFi services...\n\n");
+        Serial.print("*** 停止所有当前的 WiFi 服务中...\n\n");
         hapServer->end();
         MDNS.end();
         WiFi.disconnect();
@@ -780,16 +780,16 @@ void Span::processSerialCommand(const char *c){
       network.apConfigure();
       nvs_set_blob(wifiNVS,"WIFIDATA",&network.wifiData,sizeof(network.wifiData));    // update data
       nvs_commit(wifiNVS);                                                            // commit to NVS
-      Serial.print("\n*** Credentials saved!\n\n");
+      Serial.print("\n*** 配置已保存 \n\n");
       if(strlen(network.setupCode)){
         char s[10];
         sprintf(s,"S%s",network.setupCode);
         processSerialCommand(s);
       } else {
-        Serial.print("*** Setup Code Unchanged\n");
+        Serial.print("*** 配对码未更改\n");
       }
       
-      Serial.print("\n*** Re-starting ***\n\n");
+      Serial.print("\n*** 重启中 ***\n\n");
       statusLED.off();
       delay(1000);
       ESP.restart();                                                                             // re-start device   
@@ -801,7 +801,7 @@ void Span::processSerialCommand(const char *c){
       statusLED.off();
       nvs_erase_all(wifiNVS);
       nvs_commit(wifiNVS);      
-      Serial.print("\n*** WiFi Credentials ERASED!  Re-starting...\n\n");
+      Serial.print("\n*** Wi-Fi配置已抹除!  重新扫描中...\n\n");
       delay(1000);
       ESP.restart();                                                                             // re-start device   
     }
@@ -811,7 +811,7 @@ void Span::processSerialCommand(const char *c){
       
       nvs_erase_all(charNVS);
       nvs_commit(charNVS);      
-      Serial.print("\n*** Values for all saved Characteristics erased!\n\n");
+      Serial.print("\n*** 所有保存的数据已抹除!\n\n");
     }
     break;
 
@@ -820,7 +820,7 @@ void Span::processSerialCommand(const char *c){
       statusLED.off();
       nvs_erase_all(HAPClient::hapNVS);
       nvs_commit(HAPClient::hapNVS);      
-      Serial.print("\n*** HomeSpan Device ID and Pairing Data DELETED!  Restarting...\n\n");
+      Serial.print("\n*** HomeSpan 设备ID和匹配数据已删除!  Restarting...\n\n");
       delay(1000);
       ESP.restart();
     }
@@ -829,7 +829,7 @@ void Span::processSerialCommand(const char *c){
     case 'R': {
       
       statusLED.off();
-      Serial.print("\n*** Restarting...\n\n");
+      Serial.print("\n*** 重新扫描中...\n\n");
       delay(1000);
       ESP.restart();
     }
@@ -844,7 +844,7 @@ void Span::processSerialCommand(const char *c){
       nvs_commit(wifiNVS);   
       nvs_erase_all(charNVS);
       nvs_commit(charNVS);   
-      Serial.print("\n*** FACTORY RESET!  Restarting...\n\n");
+      Serial.print("\n*** 恢复出厂设置!  重启中...\n\n");
       delay(1000);
       ESP.restart();
     }
@@ -854,7 +854,7 @@ void Span::processSerialCommand(const char *c){
       
       statusLED.off();
       nvs_flash_erase();
-      Serial.print("\n*** ALL DATA ERASED!  Restarting...\n\n");
+      Serial.print("\n*** 所有数据已抹除!  重启中...\n\n");
       delay(1000);
       ESP.restart();
     }
@@ -880,10 +880,10 @@ void Span::processSerialCommand(const char *c){
 
     case 'i':{
 
-      Serial.print("\n*** HomeSpan Info ***\n\n");
+      Serial.print("\n*** HomeSpan 信息 ***\n\n");
 
       Serial.print(configLog);
-      Serial.print("\nConfigured as Bridge: ");
+      Serial.print("\n配置为网桥: ");
       Serial.print(homeSpan.isBridge?"YES":"NO");
       Serial.print("\n\n");
 
