@@ -68,5 +68,5 @@ void loop()
   //上面设置中的代码实现了附件属性数据库，但不执行任何操作。 HomeSpan 本身必须是
   // 不断轮询以查找来自控制器的请求，例如 iPhone 上的家庭应用程序。下面的 poll() 方法就是这样
   // 需要在 loop() 的每次迭代中连续执行此操作
-  homeSpan.poll();         // 运行 HomeSpan!
+  homeSpan.poll();         // 运行 HomeSpan！
 }
