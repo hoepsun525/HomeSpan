@@ -82,35 +82,35 @@ void Span::begin(Category catID, const char *displayName, const char *hostNameBa
   delay(2000);
  
   Serial.print("\n************************************************************\n"
-                 "Welcome to HomeSpan!\n"
-                 "Apple HomeKit for the Espressif ESP-32 WROOM and Arduino IDE\n"
+                 "欢迎使用HomeSpan!\n"
+                 "支持Arduino IDE的ESP32 Apple Homekit支持库\n"
                  "************************************************************\n\n"
-                 "** Please ensure serial monitor is set to transmit <newlines>\n\n");
+                 "** 请将串口监视器设置为： <newlines>\n\n");
 
   Serial.print("Message Logs:     Level ");
   Serial.print(logLevel);  
-  Serial.print("\nStatus LED:       Pin ");
+  Serial.print("\n状态灯:       Pin ");
   Serial.print(statusPin);  
   Serial.print("\nDevice Control:   Pin ");
   Serial.print(controlPin);
-  Serial.print("\nSketch Version:   ");
+  Serial.print("\n例程版本号:   ");
   Serial.print(getSketchVersion());  
-  Serial.print("\nHomeSpan Version: ");
+  Serial.print("\nHomeSpan版本: ");
   Serial.print(HOMESPAN_VERSION);
-  Serial.print("\nESP-IDF Version:  ");
+  Serial.print("\nESP-IDF版本:  ");
   Serial.print(esp_get_idf_version());
   
   #ifdef ARDUINO_VARIANT
-    Serial.print("\nESP32 Board:      ");
+    Serial.print("\nESP32 开发版:      ");
     Serial.print(ARDUINO_VARIANT);
   #endif
   
-  Serial.print("\nSketch Compiled:  ");
+  Serial.print("\nSketch 已编译:  ");
   Serial.print(__DATE__);
   Serial.print(" ");
   Serial.print(__TIME__);
 
-  Serial.print("\n\nDevice Name:      ");
+  Serial.print("\n\n设备名称:      ");
   Serial.print(displayName);  
   Serial.print("\n\n");
       
@@ -121,7 +121,7 @@ void Span::begin(Category catID, const char *displayName, const char *hostNameBa
 void Span::poll() {
 
   if(!strlen(category)){
-    Serial.print("\n** FATAL ERROR: Cannot run homeSpan.poll() without an initial call to homeSpan.begin()!\n** PROGRAM HALTED **\n\n");
+    Serial.print("\n** 严重错误: homeSpan.begin(）初始调用错误，无法继续运行homeSpan.poll()!\n** 创建好呢 **\n\n");
     while(1);    
   }
 
